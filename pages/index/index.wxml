@@ -1,0 +1,40 @@
+<!--index.wxml-->
+<view class="container">
+  <view  bindtap="bindViewTap" class="header">    
+    欢迎<text class="userinfo-nickname">{{userInfo.nickName}}</text>使用todolist
+  </view>
+<form bindsubmit="formSubmit" bindreset="formReset">
+ <view class="input-wrap">    
+      <input type="text" value='{{curIpt}}' placeholder="请输入待做的事" class="ipt-main"  bindinput='iptChange' />
+      <view class="flex-row" wx:if="{{curIpt}}">
+          <button class="btn btn-submit" formType="submit" hover-class="btn-hover">提交</button>
+          <button class="btn btn-cancel" formType="reset">清空</button>
+       </view>
+  </view>
+  </form>
+  <view class="list-wrap" wx:if="{{lists.length>0}}">
+    <view wx:for="{{lists}}" wx:if="{{showAll ||(!showAll && !item.done)}}" id="{{item.id}}" class="{{item.done?'done list':'list'}}">        
+        <text>{{index+1}}:</text>
+        <text class="cnt">{{item.content}}</text>
+        <icon class="ico-done" bindtap="setDone" data-id="{{index}}" type="success_no_circle" size='18' color="{{item.done?'#d7d7d7':'#6fa6cf'}}" />
+        <icon class="ico-delete" bindtap="toDelete" data-id="{{index}}" type='cancel' size='20' color="#6fa6cf" />
+    </view>
+    <view class="footer">
+        <view class="ft-area">
+            <text>{{lists.length}}条</text>
+        </view>
+         <view class="ft-area ft-mid">
+            <text wx:if="{{showAll}}" bindtap="showNoDone" class="ft-action">显示未完成</text>
+            <text wx:else bindtap="showAll" class="ft-action">显示全部</text>
+        </view>
+        <view class="ft-area">
+            <text bindtap="doneAll" class="ft-action">全部完成</text>
+            <text bindtap="deleteAll" class="ft-action">全删</text>
+        </view>
+    </view>
+  </view>
+  <view class="input-wrap mt" wx:if="{{lists.length>0}}">
+    <button class="btn btn-save" bindtap="saveData">保存数据</button>
+  </view>
+</view>
+ 

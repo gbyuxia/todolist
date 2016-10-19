@@ -1,0 +1,136 @@
+/**index.wxss**/
+.header{
+  text-align: center;
+  font-size: 40rpx;
+  display: flex; 
+  align-items: center;
+  color: #ae9e84;
+  margin-bottom: 30px;
+}
+
+.userinfo-nickname {
+  color: #a38e6d;
+}
+
+.input-wrap{  
+  margin: 30rpx 10rpx;
+}
+.flex-row{
+  display: flex;
+  margin: 10rpx 0;
+  width: 670rpx;
+  -webkit-box-pack: justify;
+}
+.btn{  
+  border-radius: 5px;
+  font-size: 30rpx;
+  line-height: 100rpx;
+  display: block;
+  flex: 1;
+  background: #6fa6cf;
+}
+.btn-submit{
+  color: #fff;
+  margin-right:10rpx;
+}
+.btn-hover{
+  background: #a2c7e2;
+}
+.btn-cancel{
+  background: #fff;
+}
+
+.ipt-main{
+  border: 1rpx solid #eee;
+  border-radius: 5px;
+  height: 80rpx;
+  padding: 10rpx;
+  font-size: 30rpx;
+  width: 650rpx;
+  display: block;
+}
+
+.list-wrap{
+	text-align:left;
+	width:670rpx;
+  margin: 0 auto;	
+  background: #fff;
+  border:1px solid #e2e2e2;
+  position:relative;
+  border-radius:0 0 5rpx 5rpx;
+}
+.list-wrap::after{
+  content:'';
+  position: absolute;
+  width: 98%;
+  height: 100%;
+  z-index: -1;
+  border: 1px solid #e6e6e6;
+  left: 1%;
+  bottom:-5px;
+  background: #fff;
+  border-radius:0 0 5rpx 5rpx;
+}
+.list-wrap::before{
+  content:'';
+  position: absolute;
+  width: 96%;
+  height: 100%;
+  z-index: -2;
+  border: 1px solid #e6e6e6;
+  left: 2%;
+  bottom:-9px;
+  background: #fff;
+  border-radius:0 0 5rpx 5rpx;
+}
+.list{
+  padding:10px;
+  position:relative;
+}
+.done{
+  background: #e6f1f8;
+  color:#ccc;
+}
+.ico-done{
+  position: absolute;
+  right: 80rpx;  
+}
+.done .ico-done{color: red}
+.ico-delete{
+	position:absolute;
+	right:10rpx;
+}	
+.red{
+  color: red;
+}
+.cnt{
+  width: 400rpx;
+}
+
+.footer{
+  display: flex;
+  justify-content:space-between;
+  font-size: 10rpx;
+  color: #a38e6d;
+  border-top: 1px solid #eee;
+}
+.ft-action{
+  color: #6fa6cf; 
+  margin: 0 10rpx;
+}
+.ft-area{  
+  padding: 20rpx;
+ text-align:center;
+}
+.ft-mid{
+  border-left: 1px solid #eee;
+  border-right: 1px solid #eee;
+  flex:1;
+}
+.mt{
+  margin-top: 100rpx;
+}
+.btn-save{
+  width:300rpx;
+  color: #fff;
+}
