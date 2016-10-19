@@ -2,10 +2,23 @@
 .header{
   text-align: center;
   font-size: 40rpx;
-  display: flex; 
-  align-items: center;
   color: #ae9e84;
-  margin-bottom: 30px;
+  margin-bottom: 50px;
+  width:100%;
+  position: relative;
+  height:50px;
+}
+.header::after{
+  content:'TO DO LIST';
+  position: absolute;
+  width: 20rem;
+  z-index: 1;
+  text-align: center;
+  color: rgba(225,225,225,0.5);
+  font-size: 60px;
+  left: 0;
+  bottom:-60px;
+
 }
 
 .userinfo-nickname {
@@ -44,9 +57,9 @@
   border: 1rpx solid #eee;
   border-radius: 5px;
   height: 80rpx;
-  padding: 10rpx;
+  padding: 10rpx 15px;
   font-size: 30rpx;
-  width: 650rpx;
+  width: 610rpx;
   display: block;
 }
 

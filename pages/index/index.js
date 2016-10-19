@@ -15,7 +15,17 @@ Page({
     })
   },
   onLoad: function () {
-    var that = this
+    var that = this;
+    wx.getStorage({
+      key: 'todolist',
+      success: function(res) {
+        if(res.data){
+           that.setData({
+            lists:res.data
+          })
+          }
+      } 
+    })
     app.getUserInfo(function(userInfo){
       that.setData({
         userInfo:userInfo
@@ -23,6 +33,7 @@ Page({
     })
   },
   iptChange(e){
+    
     this.setData({
       curIpt:e.detail.value
     })

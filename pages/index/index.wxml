@@ -1,11 +1,12 @@
 <!--index.wxml-->
 <view class="container">
   <view  bindtap="bindViewTap" class="header">    
-    欢迎<text class="userinfo-nickname">{{userInfo.nickName}}</text>使用todolist
+    欢迎<text class="userinfo-nickname">{{userInfo.nickName}}</text>使用
   </view>
 <form bindsubmit="formSubmit" bindreset="formReset">
  <view class="input-wrap">    
-      <input type="text" value='{{curIpt}}' placeholder="请输入待做的事" class="ipt-main"  bindinput='iptChange' />
+      <input type="text" value='{{curIpt}}' returnKeyType='send' placeholder="请输入待做的事" class="ipt-main"  bindinput='iptChange' />
+
       <view class="flex-row" wx:if="{{curIpt}}">
           <button class="btn btn-submit" formType="submit" hover-class="btn-hover">提交</button>
           <button class="btn btn-cancel" formType="reset">清空</button>

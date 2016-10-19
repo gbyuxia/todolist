@@ -7,4 +7,5 @@
   justify-content: space-between;
   padding: 100rpx 0;
   box-sizing: border-box;
+  font-family: 'Microsoft Yahei'
 } 
