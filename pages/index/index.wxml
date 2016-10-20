@@ -5,9 +5,21 @@
   </view>
 <form bindsubmit="formSubmit" bindreset="formReset">
  <view class="input-wrap">    
-      <input type="text" value='{{curIpt}}' returnKeyType='send' placeholder="请输入待做的事" class="ipt-main"  bindinput='iptChange' />
-
-      <view class="flex-row" wx:if="{{curIpt}}">
+      <input type="text" value='{{curIpt}}' returnKeyType='send' placeholder="请输入待做的事" class="ipt-main"  bindinput='iptChange' />     
+      <view class="flex-row flex-time" wx:if="{{curIpt}}">
+            <picker range='{{curRange}}' value='{{curBegin}}' bindchange='beginChange'  class="pick-time time">
+                <text>
+                    开始时间：{{curRange[curBegin]}}
+                </text>
+            </picker>  
+            <picker range='{{curRange}}' value='{{curFinish}}' bindchange='finishChange'  class="pick-time time">
+                <text>
+                    结束时间：{{curRange[curFinish]}}
+                </text>
+            </picker>  
+            <label class="time"><switch class="switch" checked bindchange="switch1Change" />提醒</label>
+        </view>
+        <view class="flex-row" wx:if="{{curIpt}}">        
           <button class="btn btn-submit" formType="submit" hover-class="btn-hover">提交</button>
           <button class="btn btn-cancel" formType="reset">清空</button>
        </view>
@@ -17,6 +29,7 @@
     <view wx:for="{{lists}}" wx:if="{{showAll ||(!showAll && !item.done)}}" id="{{item.id}}" class="{{item.done?'done list':'list'}}">        
         <text>{{index+1}}:</text>
         <text class="cnt">{{item.content}}</text>
+        <text class="time"> {{item.beginTime}}-{{item.finishTime}}</text>
         <icon class="ico-done" bindtap="setDone" data-id="{{index}}" type="success_no_circle" size='18' color="{{item.done?'#d7d7d7':'#6fa6cf'}}" />
         <icon class="ico-delete" bindtap="toDelete" data-id="{{index}}" type='cancel' size='20' color="#6fa6cf" />
     </view>

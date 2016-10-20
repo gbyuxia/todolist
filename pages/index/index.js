@@ -1,4 +1,8 @@
 //index.js
+var dataUrl = 'http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E061FF02C31F716658E5C81F5594D561F2E88B854E81CAAB7806D5E4F103E55D33C16F3FAC506D1AB172DE8600B37E43FAD&fromtag=46'
+var util = require("../../utils/util.js");
+
+
 //获取应用实例
 var app = getApp()
 Page({
@@ -6,7 +10,10 @@ Page({
     userInfo: {},
     curIpt:'',
     showAll:true,
-    lists:[]
+    lists:[],
+    curRange:[],
+    curBegin:0,
+    curFinish:1
   },
   //事件处理函数
   bindViewTap: function() {
@@ -16,6 +23,7 @@ Page({
   },
   onLoad: function () {
     var that = this;
+    //获取之前保留在缓存里的数据
     wx.getStorage({
       key: 'todolist',
       success: function(res) {
@@ -23,34 +31,48 @@ Page({
            that.setData({
             lists:res.data
           })
-          }
+        }
       } 
     })
+    //获取用户信息
     app.getUserInfo(function(userInfo){
       that.setData({
         userInfo:userInfo
       })
     })
   },
-  iptChange(e){
-    
+  iptChange(e){ 
+    let timeArr = util.setTimeHalf();   
     this.setData({
-      curIpt:e.detail.value
+      curIpt:e.detail.value,
+      curRange:timeArr
     })
   },
   formReset(){
     this.setData({
-      curIpt:''
+      curIpt:'',
+      curRange:[]
     })
   },
   formSubmit(){
-    let cnt = this.data.curIpt,newLists = this.data.lists,i = newLists.length;
-    newLists.push({id:i,content:cnt,done:false});
+    let cnt = this.data.curIpt,newLists = this.data.lists,i = newLists.length,begin=this.data.curRange[this.data.curBegin],finish = this.data.curRange[this.data.curFinish];
+    newLists.push({id:i,content:cnt,done:false,beginTime:begin,finishTime:finish});
     this.setData({
       lists:newLists,
       curIpt:''
     }) 
     //this.formReset();   
+  },
+  beginChange(e){
+     this.setData({
+      curBegin: e.detail.value,
+      curFinish: Number(e.detail.value)+1
+    })
+  },
+  finishChange(e){
+    this.setData({
+      curFinish: e.detail.value
+    })
   },
   setDone(e){
     let i = e.target.dataset.id,newLists = this.data.lists;
@@ -112,4 +134,5 @@ Page({
       data:listsArr
     })
   }
+  
 })

@@ -9,15 +9,15 @@
   height:50px;
 }
 .header::after{
-  content:'TO DO LIST';
+  content:'TODOS';
   position: absolute;
   width: 20rem;
   z-index: 1;
   text-align: center;
   color: rgba(225,225,225,0.5);
-  font-size: 60px;
+  font-size: 120rpx;
   left: 0;
-  bottom:-60px;
+  bottom:-50px;
 
 }
 
@@ -34,16 +34,29 @@
   width: 670rpx;
   -webkit-box-pack: justify;
 }
+.pick-time{
+  line-height: 40rpx;
+  flex:1;
+  margin:-20rpx 0 20rpx;  
+}
+.time{
+  color: #777;
+  font-size:12px;
+}
+.switch{
+  transform: scale(0.5);
+  vertical-align: middle;
+}
 .btn{  
   border-radius: 5px;
   font-size: 30rpx;
   line-height: 100rpx;
   display: block;
-  flex: 1;
   background: #6fa6cf;
 }
 .btn-submit{
   color: #fff;
+  flex: 1;
   margin-right:10rpx;
 }
 .btn-hover{

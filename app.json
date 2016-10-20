@@ -1,6 +1,7 @@
 {
   "pages":[
     "pages/index/index",
+    "pages/background-audio/background-audio",    
     "pages/logs/logs"
   ],
   "window":{
