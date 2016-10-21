@@ -9,3 +9,6 @@
   box-sizing: border-box;
   font-family: 'Microsoft Yahei'
 } 
+input,button{
+  font:inherit
+}

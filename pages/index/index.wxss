@@ -3,7 +3,7 @@
   text-align: center;
   font-size: 40rpx;
   color: #ae9e84;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
   width:100%;
   position: relative;
   height:50px;
@@ -18,13 +18,12 @@
   font-size: 120rpx;
   left: 0;
   bottom:-50px;
-
 }
 
 .userinfo-nickname {
   color: #a38e6d;
 }
-
+/*输入区域*/
 .input-wrap{  
   margin: 30rpx 10rpx;
 }
@@ -76,6 +75,7 @@
   display: block;
 }
 
+/*展示列表区域*/
 .list-wrap{
 	text-align:left;
 	width:670rpx;
@@ -132,7 +132,35 @@
 .cnt{
   width: 400rpx;
 }
+/*修改*/
+.edit-wrap{
+  position: absolute;
+  background: #fff;
+  left: 20px;
+  height: 100%;
+  width: 90%;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  padding: 6rpx;
+}
+.ipt-edit{
+  flex:1;
+  border: 1rpx solid #ddd;
+  border-radius: 3px;
+  padding: 5rpx;
+  margin-right: 10rpx;
+  font-size: 24rpx;
+}
+.btn-edit{
+  line-height: 60rpx;
+  font-size: 24rpx;
+  color: #fff;
+  height: 60rpx;
+}
 
+/*列表地步操作区*/
 .footer{
   display: flex;
   justify-content:space-between;
@@ -153,6 +181,8 @@
   border-right: 1px solid #eee;
   flex:1;
 }
+
+
 .mt{
   margin-top: 100rpx;
 }

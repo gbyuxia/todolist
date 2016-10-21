@@ -21,9 +21,9 @@ function halfHour(){
   let timeArr = [];
   for (let i =0; i<=48; i++){
     if(i % 2==0){
-      timeArr.push(i/2 +':00');
+      timeArr.push(formatNumber(i/2) +':00');
     }else{
-      timeArr.push(Math.floor(i/2)+":30")
+      timeArr.push(formatNumber(Math.floor(i/2))+":30")
     }
   }
   return timeArr;

@@ -28,7 +28,12 @@
   <view class="list-wrap" wx:if="{{lists.length>0}}">
     <view wx:for="{{lists}}" wx:if="{{showAll ||(!showAll && !item.done)}}" id="{{item.id}}" class="{{item.done?'done list':'list'}}">        
         <text>{{index+1}}:</text>
-        <text class="cnt">{{item.content}}</text>
+        <text data-id ="{{index}}"  class="cnt" bindtap="toChange" >{{item.content}}</text>
+        <view hidden="{{!item.editing}}" class="edit-wrap">
+            <input class="ipt-edit" value="{{item.content}}"  data-id="{{index}}" bindinput='iptEdit' />
+            <button class="btn btn-edit" data-id="{{index}}" bindtap="saveEdit">修改</button>
+        </view>
+        
         <text class="time"> {{item.beginTime}}-{{item.finishTime}}</text>
         <icon class="ico-done" bindtap="setDone" data-id="{{index}}" type="success_no_circle" size='18' color="{{item.done?'#d7d7d7':'#6fa6cf'}}" />
         <icon class="ico-delete" bindtap="toDelete" data-id="{{index}}" type='cancel' size='20' color="#6fa6cf" />
@@ -38,7 +43,7 @@
             <text>{{lists.length}}条</text>
         </view>
          <view class="ft-area ft-mid">
-            <text wx:if="{{showAll}}" bindtap="showNoDone" class="ft-action">显示未完成</text>
+            <text wx:if="{{showAll}}" bindtap="showUnfinished" class="ft-action">显示未完成</text>
             <text wx:else bindtap="showAll" class="ft-action">显示全部</text>
         </view>
         <view class="ft-area">

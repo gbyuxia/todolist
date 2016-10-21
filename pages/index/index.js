@@ -2,6 +2,14 @@
 var dataUrl = 'http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E061FF02C31F716658E5C81F5594D561F2E88B854E81CAAB7806D5E4F103E55D33C16F3FAC506D1AB172DE8600B37E43FAD&fromtag=46'
 var util = require("../../utils/util.js");
 
+//更改数组 第三个参数是对象
+function editArr(arr,i,editCnt){
+  let newArr = arr,editingObj = newArr[i];   
+    for (var x in editCnt){
+      editingObj[x]= editCnt[x];
+    }
+  return newArr;
+}
 
 //获取应用实例
 var app = getApp()
@@ -13,7 +21,8 @@ Page({
     lists:[],
     curRange:[],
     curBegin:0,
-    curFinish:1
+    curFinish:1,
+    remind:[]
   },
   //事件处理函数
   bindViewTap: function() {
@@ -56,12 +65,13 @@ Page({
   },
   formSubmit(){
     let cnt = this.data.curIpt,newLists = this.data.lists,i = newLists.length,begin=this.data.curRange[this.data.curBegin],finish = this.data.curRange[this.data.curFinish];
-    newLists.push({id:i,content:cnt,done:false,beginTime:begin,finishTime:finish});
-    this.setData({
-      lists:newLists,
-      curIpt:''
-    }) 
-    //this.formReset();   
+    if (cnt){
+       newLists.push({id:i,content:cnt,done:false,beginTime:begin,finishTime:finish,editing:false});
+       this.setData({
+        lists:newLists,
+        curIpt:''
+      }) 
+    }
   },
   beginChange(e){
      this.setData({
@@ -74,11 +84,29 @@ Page({
       curFinish: e.detail.value
     })
   },
-  setDone(e){
-    let i = e.target.dataset.id,newLists = this.data.lists;
-      newLists[i].done = !newLists[i].done;
+  //修改备忘录
+  toChange(e){
+    let i = e.target.dataset.id;
       this.setData({
-        lists:newLists
+        lists:editArr(this.data.lists,i,{editing:true})
+      })
+  },
+  iptEdit(e){
+    let i = e.target.dataset.id;
+    this.setData({
+      lists:editArr(this.data.lists,i,{curVal:e.detail.value})
+    })
+  },
+  saveEdit(e){   
+    let i = e.target.dataset.id;
+    this.setData({
+      lists:editArr(this.data.lists,i,{content:this.data.lists[i].curVal,editing:false})
+    })
+  },
+  setDone(e){
+    let i = e.target.dataset.id,originalDone = this.data.lists[i].done;
+      this.setData({
+        lists:editArr(this.data.lists,i,{done:!originalDone})
       })
   },
   toDelete(e){
@@ -103,28 +131,19 @@ Page({
   },
   deleteAll(){
     this.setData({
-        lists:[]
+        lists:[],
+        remind:[]
       })
   },
-  showNoDone(){
-    //只显示未完成事项
-   // let newLists = this.data.lists,allListArr = this.data.lists;
-    
-    // newLists.map(function(l,index){
-    //   if (l.done){
-    //     newLists.splice(index,1);
-    //   }
-    // })
+  showUnfinished (){
     this.setData({
       showAll:false
     })
   },
   showAll(){
     //显示全部事项
-
      this.setData({
-      showAll:true,
-     // lists:this.data.allLists
+      showAll:true   
     })
   },
   saveData(){
