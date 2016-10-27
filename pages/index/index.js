@@ -73,13 +73,13 @@ Page({
       }) 
     }
   },
-  beginChange(e){
+  beginTime(e){
      this.setData({
       curBegin: e.detail.value,
       curFinish: Number(e.detail.value)+1
     })
   },
-  finishChange(e){
+  finishTime(e){
     this.setData({
       curFinish: e.detail.value
     })

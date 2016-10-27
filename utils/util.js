@@ -41,7 +41,7 @@ function setTimeHalf(){
  })
  lastTimeArr = timeArr.slice(index);
  if (thisTime[1] !== 0 && thisTime[1]!==30){
-    lastTimeArr.unshift(thisTime[0]+":"+thisTime[1]);
+    lastTimeArr.unshift(thisTime[0]+":"+formatNumber(thisTime[1]));
   }
   return lastTimeArr;
 }

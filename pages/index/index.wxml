@@ -7,12 +7,12 @@
  <view class="input-wrap">    
       <input type="text" value='{{curIpt}}' returnKeyType='send' placeholder="请输入待做的事" class="ipt-main"  bindinput='iptChange' />     
       <view class="flex-row flex-time" wx:if="{{curIpt}}">
-            <picker range='{{curRange}}' value='{{curBegin}}' bindchange='beginChange'  class="pick-time time">
+            <picker range='{{curRange}}' value='{{curBegin}}' bindchange='beginTime'  class="pick-time time">
                 <text>
                     开始时间：{{curRange[curBegin]}}
                 </text>
             </picker>  
-            <picker range='{{curRange}}' value='{{curFinish}}' bindchange='finishChange'  class="pick-time time">
+            <picker range='{{curRange}}' value='{{curFinish}}' bindchange='finishTime'  class="pick-time time">
                 <text>
                     结束时间：{{curRange[curFinish]}}
                 </text>
@@ -35,7 +35,7 @@
         </view>
         
         <text class="time"> {{item.beginTime}}-{{item.finishTime}}</text>
-        <icon class="ico-done" bindtap="setDone" data-id="{{index}}" type="success_no_circle" size='18' color="{{item.done?'#d7d7d7':'#6fa6cf'}}" />
+        <icon class="ico-done" bindtap="setDone" data-id="{{index}}" type="success" size='20' color="{{item.done?'#d7d7d7':'#6fa6cf'}}" />
         <icon class="ico-delete" bindtap="toDelete" data-id="{{index}}" type='cancel' size='20' color="#6fa6cf" />
     </view>
     <view class="footer">
