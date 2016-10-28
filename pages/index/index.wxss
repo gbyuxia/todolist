@@ -164,7 +164,7 @@
 .footer{
   display: flex;
   justify-content:space-between;
-  font-size: 10rpx;
+  font-size: 24rpx;
   color: #a38e6d;
   border-top: 1px solid #eee;
 }

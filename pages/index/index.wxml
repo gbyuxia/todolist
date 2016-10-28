@@ -26,7 +26,7 @@
   </view>
   </form>
   <view class="list-wrap" wx:if="{{lists.length>0}}">
-    <view wx:for="{{lists}}" wx:if="{{showAll ||(!showAll && !item.done)}}" id="{{item.id}}" class="{{item.done?'done list':'list'}}">        
+    <view wx:for="{{lists}}" wx:key="{{done}}" wx:if="{{showAll ||(!showAll && !item.done)}}" id="{{item.id}}" class="{{item.done?'done list':'list'}}">        
         <text>{{index+1}}:</text>
         <text data-id ="{{index}}"  class="cnt" bindtap="toChange" >{{item.content}}</text>
         <view hidden="{{!item.editing}}" class="edit-wrap">
