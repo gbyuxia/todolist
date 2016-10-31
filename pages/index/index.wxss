@@ -32,16 +32,18 @@
   margin: 10rpx 0;
   width: 670rpx;
   -webkit-box-pack: justify;
+  align-items:center;
 }
-.pick-time{
-  line-height: 40rpx;
-  flex:1;
-  margin:-20rpx 0 20rpx;  
+.pick-time{ 
+  flex:1;  
+  vertical-align: middle;
+  margin-top:-15px;
 }
 .time{
   color: #777;
   font-size:12px;
 }
+
 .switch{
   transform: scale(0.5);
   vertical-align: middle;
@@ -64,9 +66,9 @@
 .btn-cancel{
   background: #fff;
 }
-
+input,button{font-family: inherit}
 .ipt-main{
-  border: 1rpx solid #eee;
+  border: 1rpx solid #e1e1e1;
   border-radius: 5px;
   height: 80rpx;
   padding: 10rpx 15px;
