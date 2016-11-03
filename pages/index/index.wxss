@@ -192,3 +192,4 @@ input,button{font-family: inherit}
   width:300rpx;
   color: #fff;
 }
+.voiceHidden{visibility: hidden}

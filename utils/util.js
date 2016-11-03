@@ -12,6 +12,16 @@ function formatTime(date) {
  // return [ month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
 }
 
+function formatTime2() {
+  var date = new Date();
+  var hour = date.getHours()
+  var minute = date.getMinutes()
+
+  return hour+':'+ formatNumber(minute);
+
+ // return [ month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+}
+
 function formatNumber(n) {
   n = n.toString()
   return n[1] ? n : '0' + n
@@ -45,11 +55,36 @@ function setTimeHalf(){
   }
   return lastTimeArr;
 }
-
+var sortBy =function (arr, prop, desc){ 
+	var props=[], 
+		ret=[], 
+		i=0, 
+		len=arr.length; 
+	if(typeof prop=='string') { 
+		for(; i<len; i++){ 
+			var oI = arr[i]; 
+			(props[i] = new String(oI && oI[prop] || ''))._obj = oI; 
+		} 
+	}else if(typeof prop=='function') { 
+		for(; i<len; i++){ 
+			var oI = arr[i];   
+			(props[i] = new String(oI && prop(oI) || ''))._obj = oI; 
+		} 
+	}else{ 
+		throw '参数类型错误'; 
+	} 
+	props.sort(); 
+	for(i=0; i<len; i++) { 
+		ret[i] = props[i]._obj; 
+	} 
+	if(desc) ret.reverse(); 
+	return ret; 
+}; 
 
 
 module.exports = {
   formatTime: formatTime,
-  setTimeHalf:setTimeHalf
-  
+  setTimeHalf:setTimeHalf,
+  sortBy:sortBy,
+  formatTime2:formatTime2
 }
