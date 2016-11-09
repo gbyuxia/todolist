@@ -1,5 +1,4 @@
 //index.js
-var dataUrl = '../../voice/553534.mp3'
 var util = require("../../utils/util.js");
 
 //更改数组 第三个参数是对象
@@ -12,10 +11,6 @@ function editArr(arr,i,editCnt){
       }
      }
   })
-
-    // for (var x in editCnt){
-    //   editingObj[x]= editCnt[x];
-    // }
   return newArr;
 }
 
@@ -26,7 +21,7 @@ Page({
     userInfo: {},
     showAll:true,
     lists:[],    
-    newLi:{id:'',content:'',begin:util.formatTime2(),needRemind:true,editing:false,done:false},
+    newLi:{content:'',begin:util.formatTime2(),needRemind:1,editing:0,done:0},
     src: 'http://153.37.234.17/mp3.9ku.com/mp3/554/553534.mp3'
   },
    onReady: function (e) {
@@ -45,20 +40,69 @@ Page({
       url: '../logs/logs'
     })
   },
+  getLists(){
+    var that = this, token = app.globalData.token;
+    let listUrl = 'http://v2.mashupcloud.cn/LIST/Todos/?appid=548';  
+        wx.request({    
+            url: listUrl,    
+            data: {     
+                token: app.globalData.token   
+            },
+            success: function(res) { 
+                that.setData({lists:res.data[2]});
+                that.remind();
+            }
+        })    
+  },
+  addLists(obj){
+     let that = this, token = app.globalData.token, addUrl = 'http://v2.mashupcloud.cn/ADD/Todos/?appid=548' ; 
+      obj.token = token;
+      if (obj.content){
+        wx.request({        
+              url: addUrl,
+              data:obj, 
+              success:function(res) {
+                console.log('add ok');  
+                that.getLists();          
+              },        
+              fail: function() {
+                  console.log('add fail');                    
+              }      
+          });
+      }
+  },
+  editLists(i,obj){
+     let url = 'http://v2.mashupcloud.cn/EDIT/Todos/'+i+'/?appid=548',that = this, token = app.globalData.token;
+     obj.token = token;
+       wx.request({        
+            url: url,
+            data: obj, 
+            success:function(res) {
+                that.getLists();       
+            },        
+            fail: function() {
+                console.log('edit fail');                    
+            }      
+        });
+  },
   
+  deleteLists(i){   
+    let deleteUrl = 'http://v2.mashupcloud.cn/DELETE/Todos/'+i+'/?appid=548',that = this, token = app.globalData.token;
+     wx.request({        
+            url: deleteUrl,  
+            data:{token: app.globalData.token},          
+            success:function(res) {
+                that.getLists(); 
+                console.log('delete ok');               
+            },        
+            fail: function() {
+                console.log('delete fail');                    
+            }      
+        });
+  },
   onLoad: function () {
     var that = this;
-    //获取之前保留在缓存里的数据
-    wx.getStorage({
-      key: 'todolist',
-      success: function(res) {
-        if(res.data){
-           that.setData({
-            lists:res.data
-          })
-        }
-      } 
-    })
+    this.getLists();
     //获取用户信息
     app.getUserInfo(function(userInfo){
       that.setData({
@@ -80,18 +124,10 @@ Page({
   },
   formSubmit(){
     let newLists = this.data.lists,i = 0 ,newTodo = this.data.newLi;
-    
-    if (newLists.length>0){
-      i = Number(util.sortBy(newLists,'id',true)[0].id)+1;
-    }
-    newTodo.id = i;
-    if (newTodo.content!=''){
-       newLists.push(newTodo);
-       this.setData({
-        lists:newLists,
-        newLi:{id:'',content:'',begin:util.formatTime2(),needRemind:true,editing:false,done:false}
+    this.addLists(newTodo);
+    this.setData({
+        newLi:{content:'',begin:util.formatTime2(),needRemind:1,editing:0,done:0}
       }) 
-    }
     this.remind();
   },
   beginTime(e){
@@ -100,66 +136,76 @@ Page({
     })
   },
   switch1Change(e){
+    let remindVal = e.detail.value?1:0;
     this.setData({
-      'newLi.needRemind': e.detail.value
+      'newLi.needRemind': remindVal
     })
   },
   //修改备忘录
   toChange(e){
-    let i = e.target.dataset.id;
-    
-      this.setData({
-        lists:editArr(this.data.lists,i,{editing:true})
-      })
+    let i = e.target.dataset.id;  
+    this.editLists(i,{editing:1});   
   },
   iptEdit(e){
-    let i = e.target.dataset.id;
+    let i = e.target.dataset.id;    
     this.setData({
       lists:editArr(this.data.lists,i,{curVal:e.detail.value})
     })
   },
   saveEdit(e){   
-    let i = e.target.dataset.id;
-    this.setData({
-      lists:editArr(this.data.lists,i,{content:this.data.lists[i].curVal,editing:false})
-    })
+    let i = e.target.dataset.id,thatLists = this.data.lists,curv='';
+    thatLists.map(function(l){
+      if(l.id == i){
+          curv = l.curVal
+      }
+    })  
+     //修改        
+      this.editLists(i,{content:curv,editing:0});
   },
   setDone(e){
     let i = e.target.dataset.id,newLists = this.data.lists;
-    newLists.map(function(l,index){
-      if (l.id == i){      
-      newLists[index].done = !l.done;
-      newLists[index].needRemind = false;
+    let newDone;
+    newLists.map(function(l,index){      
+      if (l.id == i){ 
+        newDone = l.done==1?0:1;  
       }
     })  
-      this.setData({
-        lists:newLists
-      })
+     this.editLists(i,{done:newDone})      
   },
   toDelete(e){
     let i = e.target.dataset.id,newLists = this.data.lists;
-    newLists.map(function(l,index){
-      if (l.id == i){      
-        newLists.splice(index,1);
-      }
-    })   
-    this.setData({
-        lists:newLists
-      })
+    this.deleteLists(i);
   },
   doneAll(){
-    let newLists = this.data.lists;
+    let newLists = this.data.lists,that = this;
+    // let doneAllUrl = 'http://v2.mashupcloud.cn/SQL/doneAll/?appid=548';
+    //    wx.request({        
+    //         url: doneAllUrl,  
+    //         data:{token: app.globalData.token,entity:'Todos',name:'doneAll'},          
+    //         success:function(res) {
+    //             console.log(res);
+    //             that.getLists();               
+    //         },        
+    //         fail: function(res) { 
+    //           console.log(res)                         
+    //         }      
+    //     });
     newLists.map(function(l){
-      l.done = true;
-    })   
-    this.setData({
-        lists:newLists
-      })
+      if(l.done==0){
+         that.editLists(l.id,{done:1});
+      }      
+    })
   },
   deleteAll(){
-    this.setData({
-        lists:[]      
-      })
+    let newLists = this.data.lists,that = this;
+    let deleteAllUrl = 'http://v2.mashupcloud.cn/SQL/deleteAll/?appid=548'
+     wx.request({        
+            url: deleteAllUrl,  
+            data:{token: app.globalData.token,entity:'Todos',name:'deleteAll'},          
+            success:function(res) {
+                that.getLists();               
+            }   
+        }); 
   },
   showUnfinished (){
     this.setData({
@@ -167,7 +213,6 @@ Page({
     })
   },
   showAll(){
-    //显示全部事项
      this.setData({
       showAll:true   
     })
@@ -192,6 +237,7 @@ Page({
   getRemindArr(){
     let thisLists=this.data.lists,closeT=0,notDoneLists=[];
     let date = new Date(),now = [date.getHours(),date.getMinutes()];
+    if (!thisLists){return false}
     thisLists.map(function(l){
       if(l.needRemind){
         notDoneLists.push(l)
@@ -219,25 +265,20 @@ Page({
                 that.audioPause();
                 that.audioStart();
                 newLists.map(function(l,index){
-                  if (l.id == id){      
-                    newLists[index].done = true; 
-                    newLists[index].needRemind = false; 
+                  if (l.id == id){ 
+                    that.editLists(id,{done:1,needRemind:0}) 
                   }
                 })  
-                that.setData({
-                  lists:newLists
-                })
+               
               }else{
                 that.audioPause();
                 that.audioStart();
                 newLists.map(function(l,index){
                   if (l.id == id){      
-                    newLists[index].needRemind = false; 
+                    that.editLists(id,{needRemind:0}) 
                   }
                 })  
-                that.setData({
-                  lists:newLists
-                })
+                
               }
             }
        })

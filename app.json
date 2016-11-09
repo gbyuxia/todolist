@@ -9,5 +9,6 @@
     "navigationBarBackgroundColor": "#656e7f",
     "navigationBarTitleText": "备忘录",
     "navigationBarTextStyle":"#fff"
-  }
+  },
+  "debug":false
 }
